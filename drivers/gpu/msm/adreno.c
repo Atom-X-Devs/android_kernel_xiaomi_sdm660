@@ -3949,6 +3949,7 @@ static struct platform_driver adreno_platform_driver = {
 		.name = "kgsl-3d",
 		.pm = &kgsl_pm_ops,
 		.of_match_table = adreno_match_table,
+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
 	}
 };
 
