@@ -88,8 +88,8 @@ int __hwspin_trylock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
 {
 	int ret;
 
-	BUG_ON(!hwlock);
-	BUG_ON(!flags && mode == HWLOCK_IRQSTATE);
+	if (WARN_ON(!hwlock || (!flags && mode == HWLOCK_IRQSTATE)))
+		return -EINVAL;
 
 	/*
 	 * This spin_lock{_irq, _irqsave} serves three purposes:
@@ -248,8 +248,8 @@ EXPORT_SYMBOL_GPL(__hwspin_lock_timeout);
  */
 void __hwspin_unlock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
 {
-	BUG_ON(!hwlock);
-	BUG_ON(!flags && mode == HWLOCK_IRQSTATE);
+	if (WARN_ON(!hwlock || (!flags && mode == HWLOCK_IRQSTATE)))
+		return;
 
 	/*
 	 * We must make sure that memory operations (both reads and writes),
