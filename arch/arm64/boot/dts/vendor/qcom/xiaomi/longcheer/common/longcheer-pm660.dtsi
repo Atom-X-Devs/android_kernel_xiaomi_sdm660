@@ -65,6 +65,7 @@
 	/delete-property/ qcom,auto-calibration;
 	qcom,fs-current-limit = <20000>;
 	qcom,en-cabc;
+	qcom,string-cfg = <3>;
 };
 
 &pm660l_flash0 {
