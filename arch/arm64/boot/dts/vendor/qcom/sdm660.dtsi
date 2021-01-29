@@ -33,7 +33,7 @@
 
 	chosen {
 		stdout-path = "serial0";
-		bootargs = "noirqdebug";
+		bootargs = "noirqdebug nodebugmon";
 	};
 
 	psci {
