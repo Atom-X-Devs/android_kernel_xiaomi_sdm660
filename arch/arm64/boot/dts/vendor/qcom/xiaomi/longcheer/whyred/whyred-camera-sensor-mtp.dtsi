@@ -292,9 +292,11 @@
 		qcom,gpio-no-mux = <0>;
 		pinctrl-names = "cam_default", "cam_suspend";
 		pinctrl-0 = <&cam_sensor_mclk1_active
-				 &cam_sensor_front_active>;
+					 &cam_sensor_front_active
+					 &cam_sensor_eldo3_default>;
 		pinctrl-1 = <&cam_sensor_mclk1_suspend
-				 &cam_sensor_front_suspend>;
+					 &cam_sensor_front_suspend
+					 &cam_sensor_eldo3_default>;
 		gpios = <&tlmm 33 0>,
 			<&tlmm 47 0>,
 			<&pm660l_gpios 3 0>;
@@ -343,9 +345,11 @@
 		qcom,gpio-no-mux = <0>;
 		pinctrl-names = "cam_default", "cam_suspend";
 		pinctrl-0 = <&cam_sensor_mclk1_active
-					 &cam_sensor_front_active>;
+					 &cam_sensor_front_active
+					 &cam_sensor_eldo3_default>;
 		pinctrl-1 = <&cam_sensor_mclk1_suspend
-					 &cam_sensor_front_suspend>;
+					 &cam_sensor_front_suspend
+					 &cam_sensor_eldo3_default>;
 		gpios = <&tlmm 33 0>,
 				<&tlmm 47 0>,
 				<&pm660l_gpios 3 0>;
@@ -392,9 +396,11 @@
 		qcom,gpio-no-mux = <0>;
 		pinctrl-names = "cam_default", "cam_suspend";
 		pinctrl-0 = <&cam_sensor_mclk1_active
-					 &cam_sensor_front_active>;
+					 &cam_sensor_front_active
+					 &cam_sensor_eldo3_default>;
 		pinctrl-1 = <&cam_sensor_mclk1_suspend
-					 &cam_sensor_front_suspend>;
+					 &cam_sensor_front_suspend
+					 &cam_sensor_eldo3_default>;
 		gpios = <&tlmm 33 0>,
 				<&tlmm 47 0>,
 				<&pm660l_gpios 3 0>;
@@ -704,9 +710,11 @@
 		qcom,gpio-no-mux = <0>;
 		pinctrl-names = "cam_default", "cam_suspend";
 		pinctrl-0 = <&cam_sensor_mclk1_active
-					 &cam_sensor_front_active>;
+					 &cam_sensor_front_active
+					 &cam_sensor_eldo3_default>;
 		pinctrl-1 = <&cam_sensor_mclk1_suspend
-					 &cam_sensor_front_suspend>;
+					 &cam_sensor_front_suspend
+					 &cam_sensor_eldo3_default>;
 		gpios = <&tlmm 33 0>,
 				<&tlmm 47 0>,
 				<&pm660l_gpios 3 0>;
