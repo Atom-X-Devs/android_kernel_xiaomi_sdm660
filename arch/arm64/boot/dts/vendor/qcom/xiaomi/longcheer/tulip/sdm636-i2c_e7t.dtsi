@@ -25,6 +25,7 @@
 	novatek@62 {
 		status = "ok";
 		compatible = "novatek,NVT-ts";
+		com,i2c-touch-active = "novatek,NVT-ts";
 		reg = <0x62>;
 		vcc_i2c-supply = <&pm660_l11>;
 		novatek,reset-gpio = <&tlmm 66 0x00>;

@@ -12,6 +12,7 @@
 	status = "ok";
 	synaptics_dsx@20 {
 		compatible = "synaptics,dsx-i2c";
+		com,i2c-touch-active = "synaptics,tcm-i2c";
 		reg = <0x20>;
 		interrupt-parent = <&tlmm>;
 		interrupts = <67 0x2008>;
@@ -32,6 +33,7 @@
 	novatek@62 {
 		status = "ok";
 		compatible = "novatek,NVT-ts";
+		com,i2c-touch-active = "novatek,NVT-ts";
 		reg = <0x62>;
 		interrupt-parent = <&tlmm>;
 		interrupts = <67 0x2008>;
