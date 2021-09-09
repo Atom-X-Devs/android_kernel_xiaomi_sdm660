@@ -160,9 +160,9 @@
 
 &pm660_haptics {
 	/delete-property/ qcom,correct-lra-drive-freq;
+	qcom,actuator-type = "lra";
 	qcom,play-mode = "buffer";
 	qcom,vmax-mv = <2204>;
-	qcom,wave-shape = "sine";
 	qcom,wave-play-rate-us = <4878>;
 	qcom,int-pwm-freq-khz = <253>;
 	qcom,brake-pattern = [02 02 01 00];
