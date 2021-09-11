@@ -3,7 +3,6 @@ ccflags-y += -I$(src)
 
 msm_kgsl_core-y = \
 	kgsl.o \
-	kgsl_trace.o \
 	kgsl_drawobj.o \
 	kgsl_ioctl.o \
 	kgsl_sharedmem.o \
@@ -31,7 +30,6 @@ msm_adreno-y += \
 	adreno_drawctxt.o \
 	adreno_dispatch.o \
 	adreno_snapshot.o \
-	adreno_trace.o \
 	adreno_a3xx.o \
 	adreno_a5xx.o \
 	adreno_a6xx.o \
