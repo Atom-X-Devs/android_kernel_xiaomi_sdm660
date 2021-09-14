@@ -680,14 +680,16 @@ include/config/auto.conf:
 endif # may-sync-config
 endif # $(dot-config)
 
-ifeq ($(cc-name),gcc)
-KBUILD_CFLAGS	+= -mcpu=cortex-a73.cortex-a53
-KBUILD_AFLAGS += -mcpu=cortex-a73.cortex-a53
+ifdef CONFIG_CC_IS_CLANG
+OPT_FLAGS := -mcpu=cortex-a53 -mtune=cortex-a53 \
+	     -march=armv8-a+crc+crypto
+else
+OPT_FLAGS := -mcpu=cortex-a73.cortex-a53 \
+	     -mtune=cortex-a73.cortex-a53 \
+	     -march=armv8-a+crc+crypto
 endif
-ifeq ($(cc-name),clang)
-KBUILD_CFLAGS	+= -mcpu=cortex-a53
-KBUILD_AFLAGS += -mcpu=cortex-a53
-endif
+KBUILD_CFLAGS += $(OPT_FLAGS)
+KBUILD_AFLAGS += $(OPT_FLAGS)
 
 KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
 KBUILD_CFLAGS	+= $(call cc-disable-warning,frame-address,)
