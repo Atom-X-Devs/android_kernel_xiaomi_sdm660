@@ -1911,7 +1911,7 @@ static int __init thermal_init(void)
 
 	result = of_parse_thermal_message();
 	if (result)
-		pr_debug("Thermal: Can not parse thermal message node, return %d\n",
+		pr_warn("Thermal: Can not parse thermal message node, return %d\n",
 			result);
 #endif
 
