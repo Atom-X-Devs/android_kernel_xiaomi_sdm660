@@ -702,6 +702,16 @@ endif
 OPT_FLAGS := -march=armv8-a+crc+crypto
 ifdef CONFIG_CC_IS_CLANG
 OPT_FLAGS += -mtune=cortex-a53
+ifdef CONFIG_LLVM_POLLY
+OPT_FLAGS += -mllvm -polly \
+		-mllvm -polly-run-dce \
+		-mllvm -polly-run-inliner \
+		-mllvm -polly-opt-fusion=max \
+		-mllvm -polly-ast-use-context \
+		-mllvm -polly-detect-keep-going \
+		-mllvm -polly-vectorizer=stripmine \
+		-mllvm -polly-invariant-load-hoisting
+endif
 else
 OPT_FLAGS += -mtune=cortex-a73.cortex-a53
 endif
