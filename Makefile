@@ -696,6 +696,16 @@ KBUILD_CFLAGS   += -O2
 endif
 
 ifdef CONFIG_CC_IS_CLANG
+ifdef CONFIG_LLVM_POLLY
+OPT_FLAGS := -mllvm -polly \
+		-mllvm -polly-run-dce \
+		-mllvm -polly-run-inliner \
+		-mllvm -polly-opt-fusion=max \
+		-mllvm -polly-ast-use-context \
+		-mllvm -polly-detect-keep-going \
+		-mllvm -polly-vectorizer=stripmine \
+		-mllvm -polly-invariant-load-hoisting
+endif
 OPT_FLAGS := -funsafe-math-optimizations -ffast-math -fopenmp \
                -mcpu=cortex-a53 -mtune=cortex-a53 -march=armv8-a+crc+crypto
 else
