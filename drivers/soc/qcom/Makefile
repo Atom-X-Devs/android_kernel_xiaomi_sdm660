@@ -1,4 +1,7 @@
 CFLAGS_rpmh-rsc.o := -I$(src)
+
+ccflags-y  += -Wno-unused-result
+
 obj-$(CONFIG_QCOM_COMMAND_DB) += cmd-db.o
 obj-$(CONFIG_QCOM_GLINK_SSR) +=	glink_ssr.o
 obj-$(CONFIG_QCOM_CPUSS_DUMP) += cpuss_dump.o
