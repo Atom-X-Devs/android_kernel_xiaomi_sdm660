@@ -695,6 +695,17 @@ else
 KBUILD_CFLAGS   += -O2
 endif
 
+ifdef CONFIG_CC_IS_CLANG
+OPT_FLAGS := -funsafe-math-optimizations -ffast-math -fopenmp \
+               -mcpu=cortex-a53 -mtune=cortex-a53 -march=armv8-a+crc+crypto
+else
+OPT_FLAGS := -mcpu=cortex-a73.cortex-a53 -mtune=cortex-a73.cortex-a53 \
+             -march=armv8-a+crc+crypto
+endif
+
+KBUILD_CFLAGS += $(OPT_FLAGS)
+KBUILD_AFLAGS += $(OPT_FLAGS)
+
 # Tell gcc to never replace conditional load with a non-conditional one
 KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
 KBUILD_CFLAGS	+= $(call cc-option,-fno-allow-store-data-races)
