@@ -684,7 +684,7 @@ OPT_FLAGS := -mllvm -polly \
 		-mllvm -polly-vectorizer=stripmine \
 		-mllvm -polly-invariant-load-hoisting
 endif
-OPT_FLAGS := -mcpu=cortex-a53 -mtune=cortex-a53 \
+OPT_FLAGS += -mcpu=cortex-a53 -mtune=cortex-a53 \
 	     -march=armv8-a+crc+crypto
 else
 OPT_FLAGS := -mcpu=cortex-a73.cortex-a53 \
