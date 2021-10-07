@@ -706,7 +706,7 @@ OPT_FLAGS := -mllvm -polly \
 		-mllvm -polly-vectorizer=stripmine \
 		-mllvm -polly-invariant-load-hoisting
 endif
-OPT_FLAGS := -funsafe-math-optimizations -ffast-math -fopenmp \
+OPT_FLAGS += -funsafe-math-optimizations -ffast-math -fopenmp \
                -mcpu=cortex-a53 -mtune=cortex-a53 -march=armv8-a+crc+crypto
 else
 OPT_FLAGS := -mcpu=cortex-a73.cortex-a53 -mtune=cortex-a73.cortex-a53 \
