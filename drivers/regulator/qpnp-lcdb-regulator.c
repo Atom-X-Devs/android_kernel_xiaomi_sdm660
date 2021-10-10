@@ -2341,7 +2341,9 @@ static int qpnp_lcdb_regulator_probe(struct platform_device *pdev)
 
 	rc = qpnp_lcdb_parse_dt(lcdb);
 	if (rc < 0) {
-		pr_err("Failed to parse dt rc=%d\n", rc);
+		if (rc != -EPROBE_DEFER)
+			pr_err("Failed to parse dt rc=%d\n", rc);
+
 		return rc;
 	}
 
