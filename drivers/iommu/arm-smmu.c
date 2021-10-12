@@ -5123,7 +5123,7 @@ static int arm_smmu_init_clocks(struct arm_smmu_power_resources *pwr)
 {
 	const char *cname;
 	struct property *prop;
-	int i;
+	int i, ret;
 	struct device *dev = pwr->dev;
 
 	pwr->num_clocks =
@@ -5147,9 +5147,11 @@ static int arm_smmu_init_clocks(struct arm_smmu_power_resources *pwr)
 		struct clk *c = devm_clk_get(dev, cname);
 
 		if (IS_ERR(c)) {
-			dev_err(dev, "Couldn't get clock: %s",
-				cname);
-			return PTR_ERR(c);
+			ret = PTR_ERR(c);
+			if (ret != -EPROBE_DEFER)
+				dev_err(dev, "Couldn't get clock: %s", cname);
+
+			return ret;
 		}
 
 		if (clk_get_rate(c) == 0) {
