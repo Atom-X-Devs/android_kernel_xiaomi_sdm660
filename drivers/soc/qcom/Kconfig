@@ -971,4 +971,7 @@ config ICNSS_QMI
 	  and configurations. It also send WLAN on/off control message to FW
 	  over QMI channel.
 
+config STATE_NOTIFIER
+    bool "State Notifier"
+
 source "drivers/soc/qcom/wcnss/Kconfig"
