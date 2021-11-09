@@ -675,9 +675,11 @@ else ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS += -Os
 endif
 
+OPT_FLAGS += -march=armv8-a+crc+crypto
 ifdef CONFIG_CC_IS_CLANG
+OPT_FLAGS := -mtune=cortex-a53
 ifdef CONFIG_LLVM_POLLY
-OPT_FLAGS := -mllvm -polly \
+OPT_FLAGS += -mllvm -polly \
 		-mllvm -polly-run-dce \
 		-mllvm -polly-run-inliner \
 		-mllvm -polly-ast-use-context \
@@ -685,11 +687,8 @@ OPT_FLAGS := -mllvm -polly \
 		-mllvm -polly-vectorizer=stripmine \
 		-mllvm -polly-invariant-load-hoisting
 endif
-OPT_FLAGS += -funsafe-math-optimizations -ffast-math -fopenmp \
-               -mcpu=cortex-a53 -mtune=cortex-a53 -march=armv8-a+crc+crypto
 else
-OPT_FLAGS := -mcpu=cortex-a73.cortex-a53 -mtune=cortex-a73.cortex-a53 \
-             -march=armv8-a+crc+crypto
+OPT_FLAGS := -mtune=cortex-a73.cortex-a53
 endif
 
 KBUILD_CFLAGS += $(OPT_FLAGS)
