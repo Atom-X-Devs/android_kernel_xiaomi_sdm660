@@ -328,7 +328,7 @@ struct msm_vcm_id_info_t {
 };
 #endif
 
-#ifdef CONFIG_XIAOMI_NEW_CAMERA_BLOBS
+#if defined(CONFIG_XIAOMI_NEW_CAMERA_BLOBS) || defined(CONFIG_MACH_XIAOMI_WAYNE)
 struct msm_lens_id_info_t {
 	unsigned short eeprom_slave_addr;
 	unsigned short lens_id_addr;
