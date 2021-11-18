@@ -540,7 +540,7 @@ static int smb1351_read_reg(struct smb1351_charger *chip, int reg, u8 *val)
 	pm_stay_awake(chip->dev);
 	ret = i2c_smbus_read_byte_data(chip->client, reg);
 	if (ret < 0) {
-		pr_err("i2c read fail: can't read from %02x: %d\n", reg, ret);
+		pr_debug("i2c read fail: can't read from %02x: %d\n", reg, ret);
 		pm_relax(chip->dev);
 		return ret;
 	}
@@ -577,7 +577,7 @@ static int smb1351_masked_write(struct smb1351_charger *chip, int reg,
 
 	rc = smb1351_read_reg(chip, reg, &temp);
 	if (rc) {
-		pr_err("read failed: reg=%03X, rc=%d\n", reg, rc);
+		pr_debug("read failed: reg=%03X, rc=%d\n", reg, rc);
 		return rc;
 	}
 	temp &= ~mask;
@@ -597,7 +597,7 @@ static int smb1351_enable_volatile_writes(struct smb1351_charger *chip)
 	rc = smb1351_masked_write(chip, CMD_I2C_REG, CMD_BQ_CFG_ACCESS_BIT,
 							CMD_BQ_CFG_ACCESS_BIT);
 	if (rc)
-		pr_err("Couldn't write CMD_BQ_CFG_ACCESS_BIT rc=%d\n", rc);
+		pr_debug("Couldn't write CMD_BQ_CFG_ACCESS_BIT rc=%d\n", rc);
 
 	return rc;
 }
@@ -1619,7 +1619,7 @@ static int smb1351_parallel_set_chg_suspend(struct smb1351_charger *chip,
 					APSD_EN_BIT | SUSPEND_MODE_CTRL_BIT,
 						SUSPEND_MODE_CTRL_BY_I2C);
 		if (rc) {
-			pr_err("Couldn't set USB suspend rc=%d\n", rc);
+			pr_debug("Couldn't set USB suspend rc=%d\n", rc);
 			return rc;
 		}
 
@@ -1672,7 +1672,7 @@ static int smb1351_parallel_set_chg_suspend(struct smb1351_charger *chip,
 						APSD_EN_BIT | SUSPEND_MODE_CTRL_BIT,
 						SUSPEND_MODE_CTRL_BY_I2C);
 		if (rc) {
-			pr_err("Couldn't set USB suspend rc=%d\n", rc);
+			pr_debug("Couldn't set USB suspend rc=%d\n", rc);
 			return rc;
 		}
 #endif
