@@ -13,7 +13,6 @@
 #include "adreno_ringbuffer.h"
 #include "kgsl_sharedmem.h"
 
-#define DEVICE_3D_NAME "kgsl-3d"
 #define DEVICE_3D0_NAME "kgsl-3d0"
 
 /* ADRENO_DEVICE - Given a kgsl_device return the adreno device struct */
@@ -381,9 +380,10 @@ struct adreno_gpu_core {
 	unsigned long features;
 	struct adreno_gpudev *gpudev;
 	size_t gmem_size;
-	unsigned int busy_mask;
-	u32 bus_width;
-};
+    unsigned int busy_mask;
+    u32 bus_width;
+    /** @snapshot_size: Size of the static snapshot region in bytes */
+    u32 snapshot_size;};
 
 /**
  * struct adreno_device - The mothership structure for all adreno related info

@@ -285,20 +285,12 @@ static int a5xx_critical_packet_construct(struct adreno_device *adreno_dev)
 
 static void a5xx_init(struct adreno_device *adreno_dev)
 {
-	struct kgsl_device *device = KGSL_DEVICE(adreno_dev);
-
-	of_property_read_u32(device->pdev->dev.of_node,
-		"qcom,highest-bank-bit", &adreno_dev->highest_bank_bit);
-
-	if (WARN(adreno_dev->highest_bank_bit < 13 ||
-			adreno_dev->highest_bank_bit > 16,
-			"The highest-bank-bit property is invalid\n"))
-		adreno_dev->highest_bank_bit =
-			clamp_t(unsigned int, adreno_dev->highest_bank_bit,
-				13, 16);
+	const struct adreno_a5xx_core *a5xx_core = to_a5xx_core(adreno_dev);
 
 	if (ADRENO_FEATURE(adreno_dev, ADRENO_GPMU))
 		INIT_WORK(&adreno_dev->gpmu_work, a5xx_gpmu_reset);
+
+	adreno_dev->highest_bank_bit = a5xx_core->highest_bank_bit;
 
 	INIT_WORK(&adreno_dev->irq_storm_work, a5xx_irq_storm_worker);
 

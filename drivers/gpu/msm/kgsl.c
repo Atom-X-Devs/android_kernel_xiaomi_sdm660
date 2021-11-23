@@ -5312,7 +5312,7 @@ int kgsl_device_platform_probe(struct kgsl_device *device)
 		goto error_pwrctrl_close;
 	}
 
-	status = kgsl_request_irq(device->pdev, device->pwrctrl.irq_name,
+	status = kgsl_request_irq(device->pdev, "kgsl_3d0_irq",
 		kgsl_irq_handler, device);
 	if (status < 0)
 		goto error_pwrctrl_close;
@@ -5370,9 +5370,6 @@ int kgsl_device_platform_probe(struct kgsl_device *device)
 
 	device->events_wq = alloc_workqueue("kgsl-events",
 		WQ_UNBOUND | WQ_MEM_RECLAIM | WQ_SYSFS | WQ_HIGHPRI, 0);
-
-	/* Initialize the snapshot engine */
-	kgsl_device_snapshot_init(device);
 
 	/* Initialize common sysfs entries */
 	kgsl_pwrctrl_init_sysfs(device);
