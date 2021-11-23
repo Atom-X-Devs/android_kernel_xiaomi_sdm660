@@ -40,7 +40,7 @@ static void kgsl_qdss_gfx_register_probe(struct kgsl_device *device)
 	if (res == NULL)
 		return;
 
-	device->qdss_gfx_virt = devm_ioremap(device->dev, res->start,
+	device->qdss_gfx_virt = devm_ioremap(&device->pdev->dev, res->start,
 							resource_size(res));
 
 	if (device->qdss_gfx_virt == NULL)

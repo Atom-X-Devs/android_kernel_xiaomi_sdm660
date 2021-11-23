@@ -921,7 +921,7 @@ void kgsl_memdesc_init(struct kgsl_device *device,
 		memdesc->priv |= KGSL_MEMDESC_USE_SHMEM;
 
 	memdesc->flags = flags;
-	memdesc->dev = device->dev->parent;
+	memdesc->dev = &device->pdev->dev;
 
 	align = max_t(unsigned int,
 		(memdesc->flags & KGSL_MEMALIGN_MASK) >> KGSL_MEMALIGN_SHIFT,
@@ -1506,7 +1506,7 @@ int kgsl_sharedmem_alloc_contig(struct kgsl_device *device,
 
 	memdesc->size = size;
 	memdesc->ops = &kgsl_cma_ops;
-	memdesc->dev = device->dev->parent;
+	memdesc->dev = &device->pdev->dev;
 
 	memdesc->hostptr = dma_alloc_attrs(memdesc->dev, (size_t) size,
 		&memdesc->physaddr, GFP_KERNEL, 0);

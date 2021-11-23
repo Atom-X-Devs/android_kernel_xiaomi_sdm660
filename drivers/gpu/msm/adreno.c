@@ -961,13 +961,14 @@ static void adreno_of_get_limits(struct adreno_device *adreno_dev,
 static int adreno_of_get_legacy_pwrlevels(struct adreno_device *adreno_dev,
 		struct device_node *parent)
 {
+	struct kgsl_device *device = KGSL_DEVICE(adreno_dev);
 	struct device_node *node;
 	int ret;
 
 	node = of_find_node_by_name(parent, "qcom,gpu-pwrlevels");
 
 	if (node == NULL) {
-		dev_err(KGSL_DEVICE(adreno_dev)->dev,
+		dev_err(&device->pdev->dev,
 			"Unable to find 'qcom,gpu-pwrlevels'\n");
 		return -EINVAL;
 	}
@@ -988,6 +989,7 @@ static int adreno_of_get_legacy_pwrlevels(struct adreno_device *adreno_dev,
 static int adreno_of_get_pwrlevels(struct adreno_device *adreno_dev,
 		struct device_node *parent)
 {
+	struct kgsl_device *device = KGSL_DEVICE(adreno_dev);
 	struct device_node *node, *child;
 	unsigned int bin = 0;
 
@@ -1022,7 +1024,7 @@ static int adreno_of_get_pwrlevels(struct adreno_device *adreno_dev,
 		}
 	}
 
-	dev_err(KGSL_DEVICE(adreno_dev)->dev,
+	dev_err(&device->pdev->dev,
 		"GPU speed_bin:%d mismatch for efused bin:%d\n",
 		adreno_dev->speed_bin, bin);
 	return -ENODEV;
@@ -1127,7 +1129,7 @@ static void adreno_cx_dbgc_probe(struct kgsl_device *device)
 
 	adreno_dev->cx_dbgc_base = res->start - device->reg_phys;
 	adreno_dev->cx_dbgc_len = resource_size(res);
-	adreno_dev->cx_dbgc_virt = devm_ioremap(device->dev,
+	adreno_dev->cx_dbgc_virt = devm_ioremap(&device->pdev->dev,
 					device->reg_phys +
 						adreno_dev->cx_dbgc_base,
 					adreno_dev->cx_dbgc_len);
@@ -1148,7 +1150,7 @@ static void adreno_cx_misc_probe(struct kgsl_device *device)
 		return;
 
 	adreno_dev->cx_misc_len = resource_size(res);
-	adreno_dev->cx_misc_virt = devm_ioremap(device->dev,
+	adreno_dev->cx_misc_virt = devm_ioremap(&device->pdev->dev,
 					res->start, adreno_dev->cx_misc_len);
 }
 
@@ -1165,7 +1167,7 @@ static void adreno_rscc_probe(struct kgsl_device *device)
 
 	adreno_dev->rscc_base = res->start - device->reg_phys;
 	adreno_dev->rscc_len = resource_size(res);
-	adreno_dev->rscc_virt = devm_ioremap(device->dev, res->start,
+	adreno_dev->rscc_virt = devm_ioremap(&device->pdev->dev, res->start,
 						adreno_dev->rscc_len);
 	if (adreno_dev->rscc_virt == NULL)
 		dev_warn(device->dev, "rscc ioremap failed\n");
@@ -1183,7 +1185,7 @@ static void adreno_isense_probe(struct kgsl_device *device)
 
 	adreno_dev->isense_base = res->start - device->reg_phys;
 	adreno_dev->isense_len = resource_size(res);
-	adreno_dev->isense_virt = devm_ioremap(device->dev, res->start,
+	adreno_dev->isense_virt = devm_ioremap(&device->pdev->dev, res->start,
 					adreno_dev->isense_len);
 	if (adreno_dev->isense_virt == NULL)
 		dev_warn(device->dev, "isense ioremap failed\n");
