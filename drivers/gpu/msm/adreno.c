@@ -23,6 +23,7 @@
 #include "adreno_llc.h"
 #include "adreno_trace.h"
 #include "kgsl_trace.h"
+#include "kgsl_util.h"
 
 /* Include the master list of GPU cores that are supported */
 #include "adreno-gpulist.h"
@@ -1794,21 +1795,17 @@ static int adreno_init(struct kgsl_device *device)
 
 static bool regulators_left_on(struct kgsl_device *device)
 {
-	int i;
+	struct kgsl_pwrctrl *pwr = &device->pwrctrl;
 
 	if (gmu_core_gpmu_isenabled(device))
 		return false;
 
-	for (i = 0; i < KGSL_MAX_REGULATORS; i++) {
-		struct kgsl_regulator *regulator =
-			&device->pwrctrl.regulators[i];
-
-		if (IS_ERR_OR_NULL(regulator->reg))
-			break;
-
-		if (regulator_is_enabled(regulator->reg))
+	if (!IS_ERR(pwr->cx_gdsc))
+		if (regulator_is_enabled(pwr->cx_gdsc))
 			return true;
-	}
+
+	if (!IS_ERR(pwr->gx_gdsc))
+		return regulator_is_enabled(pwr->gx_gdsc);
 
 	return false;
 }
@@ -3859,43 +3856,17 @@ static void adreno_iommu_sync(struct kgsl_device *device, bool sync)
 	}
 }
 
-static void _regulator_disable(struct device *dev,
-		struct kgsl_regulator *regulator, unsigned int timeout)
-{
-	unsigned long wait_time;
-
-	if (IS_ERR_OR_NULL(regulator->reg))
-		return;
-
-	regulator_disable(regulator->reg);
-
-	wait_time = jiffies + msecs_to_jiffies(timeout);
-
-	/* Poll for regulator status to ensure it's OFF */
-	while (!time_after(jiffies, wait_time)) {
-		if (!regulator_is_enabled(regulator->reg))
-			return;
-		usleep_range(10, 100);
-	}
-
-	if (!regulator_is_enabled(regulator->reg))
-		return;
-
-	dev_err(dev, "regulator '%s' disable timed out\n", regulator->name);
-}
-
 static void adreno_regulator_disable_poll(struct kgsl_device *device)
 {
-	struct adreno_device *adreno_dev = ADRENO_DEVICE(device);
 	struct kgsl_pwrctrl *pwr = &device->pwrctrl;
-	int i;
-	unsigned int timeout =
-		ADRENO_QUIRK(adreno_dev, ADRENO_QUIRK_IOMMU_SYNC) ? 200 : 5000;
 
 	adreno_iommu_sync(device, true);
 
-	for (i = KGSL_MAX_REGULATORS - 1; i >= 0; i--)
-		_regulator_disable(device->dev, &pwr->regulators[i], timeout);
+	if (!kgsl_regulator_disable_wait(pwr->gx_gdsc, 200))
+		dev_err(device->dev, "Regulator vdd is stuck on\n");
+
+	if (!kgsl_regulator_disable_wait(pwr->cx_gdsc, 200))
+		dev_err(device->dev, "Regulator vddcx is stuck on\n");
 
 	adreno_iommu_sync(device, false);
 }
