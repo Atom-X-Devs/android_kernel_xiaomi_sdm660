@@ -3985,13 +3985,21 @@ static int __init kgsl_3d_init(void)
 {
 	int ret;
 
-	ret = platform_driver_register(&kgsl_bus_platform_driver);
+	ret = kgsl_core_init();
 	if (ret)
 		return ret;
 
+	ret = platform_driver_register(&kgsl_bus_platform_driver);
+	if (ret) {
+		kgsl_core_exit();
+		return ret;
+	}
+
 	ret = platform_driver_register(&adreno_platform_driver);
-	if (ret)
+	if (ret) {
 		platform_driver_unregister(&kgsl_bus_platform_driver);
+		kgsl_core_exit();
+	}
 
 	return ret;
 }
@@ -4000,6 +4008,8 @@ static void __exit kgsl_3d_exit(void)
 {
 	platform_driver_unregister(&adreno_platform_driver);
 	platform_driver_unregister(&kgsl_bus_platform_driver);
+
+	kgsl_core_exit();
 }
 
 module_init(kgsl_3d_init);

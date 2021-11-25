@@ -495,6 +495,9 @@ void kgsl_mmu_remove_global(struct kgsl_device *device,
 int kgsl_request_irq(struct platform_device *pdev, const  char *name,
 		irq_handler_t handler, void *data);
 
+int __init kgsl_core_init(void);
+void kgsl_core_exit(void);
+
 static inline int kgsl_gpuaddr_in_memdesc(const struct kgsl_memdesc *memdesc,
 				uint64_t gpuaddr, uint64_t size)
 {

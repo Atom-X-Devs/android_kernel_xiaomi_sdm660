@@ -5421,7 +5421,7 @@ _flush_mem_workqueue(struct work_struct *work)
 	flush_workqueue(kgsl_driver.mem_workqueue);
 }
 
-static void kgsl_core_exit(void)
+void kgsl_core_exit(void)
 {
 	kgsl_events_exit();
 	kgsl_core_debugfs_close();
@@ -5453,7 +5453,7 @@ static void kgsl_core_exit(void)
 		ARRAY_SIZE(kgsl_driver.devp));
 }
 
-static int __init kgsl_core_init(void)
+int __init kgsl_core_init(void)
 {
 	int result = 0;
 	struct sched_param param = { .sched_priority = 16 };
@@ -5553,9 +5553,3 @@ err:
 	kgsl_core_exit();
 	return result;
 }
-
-module_init(kgsl_core_init);
-module_exit(kgsl_core_exit);
-
-MODULE_DESCRIPTION("MSM GPU driver");
-MODULE_LICENSE("GPL v2");
