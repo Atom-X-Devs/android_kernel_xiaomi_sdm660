@@ -1,6 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-only
 
 &i2c_1 {
+	novatek@62 {
+		/delete-property/ interrupt-parent;
+		/delete-property/ interrupts;
+		/delete-property/ pinctrl-names;
+		/delete-property/ pinctrl-0;
+		/delete-property/ pinctrl-1;
+	};
+
 	focaltech@38{
 		compatible = "focaltech,fts";
 		reg = <0x38>;
@@ -19,14 +27,5 @@
 		focaltech,keys = <139 102 158>;
 		focaltech,key-y-coord = <2500>;
 		focaltech,key-x-coords = <200 600 800>;
-	};
-
-	novatek@62 {
-		status = "ok";
-		compatible = "novatek,NVT-ts";
-		reg = <0x62>;
-		vcc_i2c-supply = <&pm660_l11>;
-		novatek,reset-gpio = <&tlmm 66 0x00>;
-		novatek,irq-gpio = <&tlmm 67 0x2001>;
 	};
 };
