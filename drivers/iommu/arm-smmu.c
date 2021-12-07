@@ -5146,11 +5146,8 @@ static int arm_smmu_init_clocks(struct arm_smmu_power_resources *pwr)
 				prop, cname) {
 		struct clk *c = devm_clk_get(dev, cname);
 
-		if (IS_ERR(c)) {
-			dev_err(dev, "Couldn't get clock: %s",
-				cname);
-			return PTR_ERR(c);
-		}
+		if (IS_ERR(c))
+			return dev_err_probe(dev, PTR_ERR(c), "Couldn't get clock");
 
 		if (clk_get_rate(c) == 0) {
 			long rate = clk_round_rate(c, 1000);
