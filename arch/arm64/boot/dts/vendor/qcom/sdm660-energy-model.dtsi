@@ -1,0 +1,111 @@
+// Legacy energy model
+
+&CPU0 {
+	sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
+	efficiency = <636>;
+};
+
+&CPU1 {
+	sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
+	efficiency = <636>;
+};
+
+&CPU2 {
+	sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
+	efficiency = <636>;
+};
+
+&CPU3 {
+	sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
+	efficiency = <636>;
+};
+
+&CPU4 {
+	sched-energy-costs = <&CPU_COST_1 &CLUSTER_COST_1>;
+	efficiency = <1024>;
+};
+
+&CPU5 {
+	sched-energy-costs = <&CPU_COST_1 &CLUSTER_COST_1>;
+	efficiency = <1024>;
+};
+
+&CPU6 {
+	sched-energy-costs = <&CPU_COST_1 &CLUSTER_COST_1>;
+	efficiency = <1024>;
+};
+
+&CPU7 {
+	sched-energy-costs = <&CPU_COST_1 &CLUSTER_COST_1>;
+	efficiency = <1024>;
+};
+
+/ {
+	energy_costs: energy-costs {
+		compatible = "sched-energy";
+
+		CPU_COST_0: core-cost0 {
+			busy-cost-data = <
+				633600	53
+				902400	74
+				1113600	92
+				1401600	127
+				1536000	170
+				1747200	196
+				1843200	220
+			>;
+
+			idle-cost-data = <
+				20 16 10 8
+			>;
+		};
+
+		CPU_COST_1: core-cost1 {
+			busy-cost-data = <
+				1113600	258
+				1401600	329
+				1747200	502
+				1958400	620
+				2150400	740
+				2208000	853
+			>;
+
+			idle-cost-data = <
+				100 80 60 40
+			>;
+		};
+
+		CLUSTER_COST_0: cluster-cost0 {
+			busy-cost-data = <
+				633600	4
+				902400	5
+				1113600	7
+				1401600	9
+				1536000	9
+				1747200	11
+				1843200	13
+			>;
+
+			idle-cost-data = <
+				4 3 2 1
+			>;
+		};
+
+		CLUSTER_COST_1: cluster-cost1 {
+			busy-cost-data = <
+				1113600	14
+				1401600	17
+				1747200	25
+				1804800	31
+				1958400	31
+				2150400	37
+				2208000	44
+				2457600	45
+			>;
+
+			idle-cost-data = <
+				4 3 2 1
+			>;
+		};
+	};
+};
