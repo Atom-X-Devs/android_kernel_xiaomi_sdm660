@@ -685,13 +685,23 @@ OPT_FLAGS := -march=armv8-a+crc+crypto
 ifdef CONFIG_CC_IS_CLANG
 OPT_FLAGS += -mtune=cortex-a53
 ifdef CONFIG_LLVM_POLLY
-OPT_FLAGS += -mllvm -polly \
+POLLY_FLAGS :=  -mllvm -polly \
 		-mllvm -polly-run-dce \
+		-mllvm -polly-postopts=1 \
 		-mllvm -polly-run-inliner \
+		-mllvm -polly-reschedule=1 \
+		-mllvm -polly-num-threads=0 \
 		-mllvm -polly-ast-use-context \
+		-mllvm -polly-omp-backend=LLVM \
 		-mllvm -polly-detect-keep-going \
+		-mllvm -polly-scheduling=dynamic \
+		-mllvm -polly-loopfusion-greedy=1 \
 		-mllvm -polly-vectorizer=stripmine \
+		-mllvm -polly-scheduling-chunksize=1 \
 		-mllvm -polly-invariant-load-hoisting
+
+OPT_FLAGS += $(POLLY_FLAGS)
+KBUILD_LDFLAGS += $(POLLY_FLAGS)
 endif
 else
 OPT_FLAGS += -mtune=cortex-a73.cortex-a53
